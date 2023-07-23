@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AdminView from "./screens/adminView";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from "./screens/login";
+import Signup from "./screens/signup";
+import { UserAuthContextProvider } from "./Context/UserAuthContext";
+import ProtectedRoute from "./screens/protectedRoute";
+import StaffView from "./screens/staffView";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App(){
+    return (
+        <BrowserRouter>
+        <UserAuthContextProvider>
+            <Routes>
+                <Route path="/" element={<Login></Login>} />
+                <Route path="/signup" element={<Signup></Signup>} />
+                <Route path="/admin" element={<ProtectedRoute>
+                    <AdminView />
+                </ProtectedRoute>} /> 
+                <Route path="/staff" element={<ProtectedRoute>
+                    <StaffView></StaffView>
+                </ProtectedRoute>} />
+            </Routes>
+        </UserAuthContextProvider>
+        </BrowserRouter>
+    )
 }
 
 export default App;
